@@ -324,7 +324,7 @@ wbbdebug=true;
 					buttonHTML: '<span class="fonticon ve-tlb-textleft1">\uE015</span>',
 					groupkey: 'align',
 					transform: {
-						'<p style="text-align:left">{SELTEXT}</p>': '[left]{SELTEXT}[/left]'
+						'<p style="text-align:left">{SELTEXT}</p>': '[align=left]{SELTEXT}[/align]'
 					}
 				},
 				justifyright: {
@@ -332,7 +332,7 @@ wbbdebug=true;
 					buttonHTML: '<span class="fonticon ve-tlb-textright1">\uE016</span>',
 					groupkey: 'align',
 					transform: {
-						'<p style="text-align:right">{SELTEXT}</p>': '[right]{SELTEXT}[/right]'
+						'<p style="text-align:right">{SELTEXT}</p>': '[align=right]{SELTEXT}[/align]'
 					}
 				},
 				justifycenter: {
@@ -340,7 +340,7 @@ wbbdebug=true;
 					buttonHTML: '<span class="fonticon ve-tlb-textcenter1">\uE014</span>',
 					groupkey: 'align',
 					transform: {
-						'<p style="text-align:center">{SELTEXT}</p>': '[center]{SELTEXT}[/center]'
+						'<p style="text-align:center">{SELTEXT}</p>': '[align=center]{SELTEXT}[/align]'
 					}
 				},
 				video: {
@@ -389,7 +389,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "1",
 					transform: {
-						'<font size="1">{SELTEXT}</font>':'[size=50]{SELTEXT}[/size]'
+						'<font size="1">{SELTEXT}</font>':'[size=5]{SELTEXT}[/size]'
 					}
 				},
 				fs_small: {
@@ -398,7 +398,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "2",
 					transform: {
-						'<font size="2">{SELTEXT}</font>':'[size=85]{SELTEXT}[/size]'
+						'<font size="2">{SELTEXT}</font>':'[size=8]{SELTEXT}[/size]'
 					}
 				},
 				fs_normal: {
@@ -407,7 +407,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "3",
 					transform: {
-						'<font size="3">{SELTEXT}</font>':'[size=100]{SELTEXT}[/size]'
+						'<font size="3">{SELTEXT}</font>':'[size=10]{SELTEXT}[/size]'
 					}
 				},
 				fs_big: {
@@ -416,7 +416,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "4",
 					transform: {
-						'<font size="4">{SELTEXT}</font>':'[size=150]{SELTEXT}[/size]'
+						'<font size="4">{SELTEXT}</font>':'[size=15]{SELTEXT}[/size]'
 					}
 				},
 				fs_verybig: {
@@ -425,7 +425,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "6",
 					transform: {
-						'<font size="6">{SELTEXT}</font>':'[size=200]{SELTEXT}[/size]'
+						'<font size="6">{SELTEXT}</font>':'[size=20]{SELTEXT}[/size]'
 					}
 				},
 				
