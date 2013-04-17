@@ -3,7 +3,7 @@
 * Copyright (c) 2013 Vadim Dobroskok; Licensed MIT, GPL */
 
 if (typeof (WBBLANG)=="undefined") {WBBLANG = {};}
-WBBLANG['ru']= CURLANG = {
+WBBLANG['en']= CURLANG = {
 	bold: "Bold",
 	italic: "Italic",
 	underline: "Underline",
