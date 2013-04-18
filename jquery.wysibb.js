@@ -389,7 +389,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "1",
 					transform: {
-						'<font size="1">{SELTEXT}</font>':'[size=5]{SELTEXT}[/size]'
+						'<font style="font-size: 30%;">{SELTEXT}</font>':'[size=3]{SELTEXT}[/size]'
 					}
 				},
 				fs_small: {
@@ -398,7 +398,7 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "2",
 					transform: {
-						'<font size="2">{SELTEXT}</font>':'[size=8]{SELTEXT}[/size]'
+						'<font style="font-size: 50%;">{SELTEXT}</font>':'[size=5]{SELTEXT}[/size]'
 					}
 				},
 				fs_normal: {
@@ -407,25 +407,25 @@ wbbdebug=true;
 					excmd: 'fontSize',
 					exvalue: "3",
 					transform: {
-						'<font size="3">{SELTEXT}</font>':'[size=10]{SELTEXT}[/size]'
+						'<font style="font-size: 100%;">{SELTEXT}</font>':'[size=10]{SELTEXT}[/size]'
 					}
 				},
 				fs_big: {
 					title: CURLANG.fs_big,
 					buttonText: "fs4",
 					excmd: 'fontSize',
-					exvalue: "4",
+					exvalue: "5",
 					transform: {
-						'<font size="4">{SELTEXT}</font>':'[size=15]{SELTEXT}[/size]'
+						'<font style="font-size: 150%;">{SELTEXT}</font>':'[size=15]{SELTEXT}[/size]'
 					}
 				},
 				fs_verybig: {
 					title: CURLANG.fs_verybig,
 					buttonText: "fs5",
 					excmd: 'fontSize',
-					exvalue: "6",
+					exvalue: "7",
 					transform: {
-						'<font size="6">{SELTEXT}</font>':'[size=20]{SELTEXT}[/size]'
+						'<font style="font-size: 300%;">{SELTEXT}</font>':'[size=30]{SELTEXT}[/size]'
 					}
 				},
 				
@@ -913,8 +913,6 @@ wbbdebug=true;
 				
 			}
 			
-			
-			this.$editor.append('<span class="powered">Powered by <a href="http://www.wysibb.com" target="_blank">WysiBB<a/></span>');
 			
 			//add event listeners to textarea 
 			this.$txtArea.bind('mouseup keyup',$.proxy(function() {
@@ -1490,6 +1488,60 @@ wbbdebug=true;
 					this.selectLastRange()
 				}
 				document.execCommand(cmd, false, param);
+				
+				if (cmd=="fontSize")  // Replace font size attributes with font-size style
+				{ 
+					$('.wysibb-body').find('font').each(function()
+						{
+							var size = $(this).attr("size");
+							var pct = 0;
+							
+							switch (size)
+							{
+								case "1":
+								{
+									pct = 25;
+									break;
+								}
+								case "2":
+								{
+									pct = 50;
+									break;
+								}
+								case "3":
+								{
+									pct = 100;
+									break;
+								}
+								case "4":
+								{
+									pct = 120;
+									break;
+								}
+								case "5":
+								{
+									pct = 150;
+									break;
+								}
+								case "6":
+								{
+									pct = 200;
+									break;
+								}
+								case "7":
+								{
+									pct = 300;
+									break;
+								}
+							}
+							
+							if (pct > 0)
+							{
+								$(this).removeAttr("size");
+								$(this).attr("style", "font-size: "+pct+'%;');
+							}
+						});
+				}
 			}
 			
 		},
