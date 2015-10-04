@@ -1,6 +1,5 @@
-﻿/*Russian language*/
 if (typeof (WBBLANG)=="undefined") {WBBLANG = {};}
-WBBLANG['ru'] = {
+WBBLANG['ru']= CURLANG = {
 	bold: "Полужирный",
 	italic: "Курсив",
 	underline: "Подчеркнутый",
@@ -73,5 +72,6 @@ WBBLANG['ru'] = {
 	sm7:"Злой",
 	sm8: "Огорчение",
 	sm9: "Тошнит"
+	
 	
 };
