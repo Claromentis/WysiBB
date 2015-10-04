@@ -1,9 +1,8 @@
-/*! WysiBB - WYSIWYG BBCode editor - v1.4.2 - 2013-04-06
-* http://www.wysibb.com
-* Copyright (c) 2013 Vadim Dobroskok; Licensed MIT, GPL */
-
+/*! WysiBB v1.5.1 2014-03-26 
+    Author: Vadim Dobroskok
+ */
 if (typeof (WBBLANG)=="undefined") {WBBLANG = {};}
-WBBLANG['en']= CURLANG = {
+WBBLANG['en'] = CURLANG = {
 	bold: "Bold",
 	italic: "Italic",
 	underline: "Underline",
@@ -31,7 +30,7 @@ WBBLANG['en']= CURLANG = {
 	fs_big: "Big",
 	fs_verybig: "Very big",
 	smilebox: "Insert emoticon",
-	video: "Embed a video",
+	video: "Insert YouTube",
 	removeFormat:"Remove Format",
 	
 	modal_link_title: "Insert link",
@@ -97,7 +96,7 @@ wbbdebug=true;
 			tabInsert:			true,
 //			toolbar:			false,
 			//img upload config 
-			imgupload:			true,
+			imgupload:			false,
 			img_uploadurl:		"/iupload.php",
 			img_maxwidth:		800,
 			img_maxheight:		800,
@@ -111,7 +110,7 @@ wbbdebug=true;
 			smileConversion:	true,
 
 			//END img upload config 
-			buttons: 			"bold,italic,underline,strike,sup,sub,|,img,video,link,|,bullist,numlist,smilebox,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,code,offtop,table,removeFormat",
+			buttons: 			"bold,italic,underline,strike,sup,sub,|,img,video,link,|,bullist,numlist,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,code,table,removeFormat",
 			allButtons: {
 				bold : {
 					title: CURLANG.bold,
@@ -192,6 +191,7 @@ wbbdebug=true;
 					title: CURLANG.img,
 					buttonHTML: '<span class="fonticon ve-tlb-img1">\uE006</span>',
 					hotkey: 'ctrl+shift+1',
+					addWrap: true,
 					modal: {
 						title: CURLANG.modal_img_title,
 						width: "600px",
@@ -201,10 +201,6 @@ wbbdebug=true;
 								input: [
 									{param: "SRC",title:CURLANG.modal_imgsrc_text,validation: '^http(s)?://.*?\.(jpg|png|gif|jpeg)$'}
 								]
-							},
-							{
-								title: CURLANG.modal_img_tab2,
-								html: '<div id="imguploader"> <form id="fupform" class="upload" action="{img_uploadurl}" method="post" enctype="multipart/form-data" target="fupload"><input type="hidden" name="iframe" value="1"/><input type="hidden" name="idarea" value="'+id+'" /><div class="fileupload"><input id="fileupl" class="file" type="file" name="img" /><button id="nicebtn" class="wbb-button">'+CURLANG.modal_img_btn+'</button> </div> </form> </div><iframe id="fupload" name="fupload" src="about:blank" frameborder="0" style="width:0px;height:0px;display:none"></iframe></div>'
 							}
 						],
 						onLoad: this.imgLoadModal
@@ -238,7 +234,7 @@ wbbdebug=true;
 					hotkey: 'ctrl+shift+3',
 					//subInsert: true,
 					transform : { 
-						'<div class="quote">{SELTEXT}</div>':"[quote]{SELTEXT}[/quote]"
+						'<blockquote>{SELTEXT}</blockquote>':"[quote]{SELTEXT}[/quote]"
 					}
 				},
 				code : {
@@ -248,7 +244,7 @@ wbbdebug=true;
 					hotkey: 'ctrl+shift+4',
 					onlyClearText: true,
 					transform : {
-						'<div class="codewrap"><div class="codetop" contenteditable="false">Код:</div><div class="codemain">{SELTEXT}</div></div>':"[code]{SELTEXT}[/code]"
+						'<code>{SELTEXT}</code>':"[code]{SELTEXT}[/code]"
 					}
 				},
 				offtop : {
@@ -281,7 +277,7 @@ wbbdebug=true;
 					title: CURLANG.table,
 					cols: 10,
 					rows: 10,
-					cellwidth: 15,
+					cellwidth: 20,
 					transform: {
 						'<td>{SELTEXT}</td>': '[td]{SELTEXT}[/td]',
 						'<tr>{SELTEXT}</tr>': '[tr]{SELTEXT}[/tr]',
@@ -364,9 +360,9 @@ wbbdebug=true;
 							}
 							var a;
 							if (url.indexOf("youtu.be")!=-1) {
-								a = url.match(/^http:\/\/youtu\.be\/([a-z0-9_-]+)/i);
+								a = url.match(/^http[s]*:\/\/youtu\.be\/([a-z0-9_-]+)/i);
 							}else{
-								a = url.match(/^http:\/\/www\.youtube\.com\/watch\?.*?v=([a-z0-9_-]+)/i);
+								a = url.match(/^http[s]*:\/\/www\.youtube\.com\/watch\?.*?v=([a-z0-9_-]+)/i);
 							}
 							if (a && a.length==2) {
 								var code = a[1];
@@ -446,15 +442,7 @@ wbbdebug=true;
 				//blockquote: [["   {SELTEXT}",{seltext: {rgx:false,attr:false,sel:false}}]]
 			},
 			smileList: [
-				{title:CURLANG.sm1, img: '<img src="{themePrefix}{themeName}/img/smiles/sm1.png" class="sm">', bbcode:":)"},
-				{title:CURLANG.sm8 ,img: '<img src="{themePrefix}{themeName}/img/smiles/sm8.png" class="sm">', bbcode:":("},
-				{title:CURLANG.sm1, img: '<img src="{themePrefix}{themeName}/img/smiles/sm2.png" class="sm">', bbcode:":D"},
-				{title:CURLANG.sm3, img: '<img src="{themePrefix}{themeName}/img/smiles/sm3.png" class="sm">', bbcode:";)"},
-				{title:CURLANG.sm4, img: '<img src="{themePrefix}{themeName}/img/smiles/sm4.png" class="sm">', bbcode:":up:"},
-				{title:CURLANG.sm5, img: '<img src="{themePrefix}{themeName}/img/smiles/sm5.png" class="sm">', bbcode:":down:"},
-				{title:CURLANG.sm6, img: '<img src="{themePrefix}{themeName}/img/smiles/sm6.png" class="sm">', bbcode:":shock:"},
-				{title:CURLANG.sm7, img: '<img src="{themePrefix}{themeName}/img/smiles/sm7.png" class="sm">', bbcode:":angry:"},
-				{title:CURLANG.sm9, img: '<img src="{themePrefix}{themeName}/img/smiles/sm9.png" class="sm">', bbcode:":sick:"}
+				//{title:CURLANG.sm1, img: '<img src="{themePrefix}{themeName}/img/smiles/sm1.png" class="sm">', bbcode:":)"},
 			],
 			attrWrap: ['src','color','href'] //use becouse FF and IE change values for this attr, modify [attr] to _[attr]
 		}
@@ -505,7 +493,7 @@ wbbdebug=true;
 			this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
 			
 			//use bbmode on mobile devices
-			if (this.isMobile) {this.options.onlyBBmode=this.options.bbmode=true;}
+			//this.isMobile = true; //TEMP
 			if (this.options.onlyBBmode===true) {this.options.bbmode=true;}
 			//create array of controls, for queryState
 			this.controllers = [];
@@ -589,12 +577,21 @@ wbbdebug=true;
 					});
 				}
 				if (ob.transform && ob.skipRules!==true) {
-					
-					
 					var obtr = $.extend({},ob.transform);
+					
+					/* if (ob.addWrap) {
+						//addWrap
+						$.log("needWrap");
+						for (var bhtml in obtr) {
+							var bbcode = ob.transform[bhtml];
+							var newhtml = '<span wbb="'+btnlist[bidx]+'">'+bhtml+'</span>';
+							obtr[newhtml] = bbcode;
+						}
+					} */
+					
 					for (var bhtml in obtr) {
 						var orightml = bhtml;
-						var bbcode = ob.transform[bhtml];
+						var bbcode = obtr[bhtml];
 						
 						//create root selector for isContain bbmode
 						if (!ob.bbSelector) {ob.bbSelector=[];}
@@ -610,13 +607,14 @@ wbbdebug=true;
 							var $bel = $(document.createElement('DIV')).append($(this.elFromString(bhtml,document)));
 							var rootSelector = this.filterByNode($bel.children());
 							
+							
 							//check if current rootSelector is exist, create unique selector for each transform (1.2.2)
 							if (rootSelector=="div" || typeof(o.rules[rootSelector])!="undefined") {
 								//create unique selector
 								$.log("create unique selector: "+rootSelector);
 								this.setUID($bel.children());
 								rootSelector = this.filterByNode($bel.children());
-								
+								$.log("New rootSelector: "+rootSelector);
 								//replace transform with unique selector
 								var nhtml2 = $bel.html();
 								nhtml2 = this.unwrapAttrs(nhtml2);
@@ -780,6 +778,10 @@ wbbdebug=true;
 			//this.$editor = $('<div class="wysibb">');
 			this.$editor = $('<div>').addClass("wysibb");
 			
+			if (this.isMobile) {
+				this.$editor.addClass("wysibb-mobile");
+			}
+			
 			//set direction if defined
 			if (this.options.direction) {this.$editor.css("direction",this.options.direction)}
 			
@@ -795,9 +797,13 @@ wbbdebug=true;
 				var height = this.options.minheight || this.$txtArea.outerHeight();
 				var maxheight = this.options.resize_maxheight;
 				var mheight = (this.options.autoresize===true) ? this.options.resize_maxheight:height;
-				this.$body = $(this.strf('<div class="wysibb-text-editor" style="max-height:{maxheight}px;min-height:{height}px"></iframe>',{maxheight:mheight,height:height})).insertAfter(this.$txtArea);
+				this.$body = $(this.strf('<div class="wysibb-text-editor" style="max-height:{maxheight}px;min-height:{height}px"></div>',{maxheight:mheight,height:height})).insertAfter(this.$txtArea);
 				this.body = this.$body[0];
 				this.$txtArea.hide();
+				
+				if (height>32) {
+					this.$toolbar.css("max-height",height);
+				}
 				
 				$.log("WysiBB loaded");
 				
@@ -828,7 +834,6 @@ wbbdebug=true;
 				
 				
 				//clear html on paste from external editors
-				
 				this.$body.bind('keydown', $.proxy(function(e) {
 					if ((e.which == 86 && (e.ctrlKey==true || e.metaKey==true)) || (e.which == 45 && (e.shiftKey==true || e.metaKey==true))) {
 						if (!this.$pasteBlock) {
@@ -836,7 +841,7 @@ wbbdebug=true;
 							this.$pasteBlock = $(this.elFromString('<div style="opacity:0;" contenteditable="true">\uFEFF</div>'));
 							
 							this.$pasteBlock.appendTo(this.body);
-							if (!$.support.htmlSerialize) {this.$pasteBlock.focus();} //IE 7,8 FIX
+							//if (!$.support.search?type=2) {this.$pasteBlock.focus();} //IE 7,8 FIX
 								setTimeout($.proxy(function() {
 									this.clearPaste(this.$pasteBlock);
 									var rdata = '<span>'+this.$pasteBlock.html()+'</span>';
@@ -845,6 +850,7 @@ wbbdebug=true;
 									this.body.focus();
 
 									if (this.cleartext) {
+										$.log("Check if paste to clearText Block");
 										if (this.isInClearTextBlock()) {
 											rdata = this.toBB(rdata).replace(/\n/g,"<br/>").replace(/\s{3}/g,'<span class="wbbtab"></span>');
 										}
@@ -911,8 +917,11 @@ wbbdebug=true;
 						});
 				}
 				
+				this.imgListeners();
 			}
 			
+			
+			//this.$editor.append('<span class="powered">Powered by <a href="http://www.wysibb.com" target="_blank">WysiBB<a/></span>');
 			
 			//add event listeners to textarea 
 			this.$txtArea.bind('mouseup keyup',$.proxy(function() {
@@ -960,7 +969,7 @@ wbbdebug=true;
 			
 			//build bbcode switch button
 			//var $bbsw = $('<div class="wysibb-toolbar-container modeSwitch"><div class="wysibb-toolbar-btn" unselectable="on"><span class="btn-inner ve-tlb-bbcode" unselectable="on"></span></div></div>').appendTo(this.$toolbar);
-			var $bbsw = $(document.createElement('div')).addClass("wysibb-toolbar-container modeSwitch").html('<div class="wysibb-toolbar-btn mswitch" unselectable="on"><span class="btn-inner modesw" unselectable="on">[BBcode]</span></div>').appendTo(this.$toolbar);
+			var $bbsw = $(document.createElement('div')).addClass("wysibb-toolbar-container modeSwitch").html('<div class="wysibb-toolbar-btn mswitch" unselectable="on"><span class="btn-inner modesw" unselectable="on">[bbcode]</span></div>').appendTo(this.$toolbar);
 			if (this.options.bbmode==true) {$bbsw.children(".wysibb-toolbar-btn").addClass("on");}
 			if (this.options.onlyBBmode===false) {
 				$bbsw.children(".wysibb-toolbar-btn").click($.proxy(function(e) {
@@ -968,8 +977,6 @@ wbbdebug=true;
 					this.modeSwitch();
 				},this));
 			}
-			if ($.support.htmlSerialize) {this.$toolbar.find("*").attr("unselectable","on");} //fix for ie8 and lower
-			
 		},
 		buildButton: function(container,bn,opt) {
 			if (typeof(container)!="object") {
@@ -993,7 +1000,6 @@ wbbdebug=true;
 		buildColorpicker: function(container,bn,opt) {
 			var $btn = $('<div class="wysibb-toolbar-btn wbb-dropdown wbb-cp">').appendTo(container).append('<div class="ve-tlb-colorpick"><span class="fonticon">\uE010</span><span class="cp-line"></span></div><ins class="fonticon ar">\uE011</ins>').append(this.strf('<span class="btn-tooltip">{title}<ins/></span>',{title:opt.title}));
 			var $cpline = $btn.find(".cp-line");
-			//if ($.support.htmlSerialize) {$btn.attr("unselectable","on").find("*").attr("unselectable","on");} //fix for ie8 and lower
 			
 			var $dropblock = $('<div class="wbb-list">').appendTo($btn); 
 			$dropblock.append('<div class="nc">'+CURLANG.auto+'</div>');
@@ -1013,7 +1019,7 @@ wbbdebug=true;
 			$btn.bind('queryState',$.proxy(function(e) {
 				//queryState
 				$cpline.css("background-color",basecolor);
-				var r = this.queryState("fontcolor",true);
+				var r = this.queryState(bn,true);
 				if (r) {
 					$cpline.css("background-color",(this.options.bbmode) ? r.color:r);
 					$btn.find(".ve-tlb-colorpick span.fonticon").css("color",(this.options.bbmode) ? r.color:r);
@@ -1027,13 +1033,13 @@ wbbdebug=true;
 				e.preventDefault();
 				this.selectLastRange();
 				var c = $(e.currentTarget).attr("title");
-				this.execCommand("fontcolor",c);
+				this.execCommand(bn,c);
 				$btn.trigger('queryState');
 			},this));
 			$btn.find(".nc").mousedown($.proxy(function(e) {
 				e.preventDefault();
 				this.selectLastRange();
-				this.execCommand("fontcolor",basecolor);
+				this.execCommand(bn,basecolor);
 				$btn.trigger('queryState');
 			},this));
 			$btn.mousedown(function(e) { 
@@ -1043,15 +1049,16 @@ wbbdebug=true;
 		buildTablepicker: function(container,bn,opt) {
 			var $btn = $('<div class="wysibb-toolbar-btn wbb-dropdown wbb-tbl">').appendTo(container).append('<span class="btn-inner fonticon ve-tlb-table1">\uE00e</span><ins class="fonticon ar">\uE011</ins>').append(this.strf('<span class="btn-tooltip">{title}<ins/></span>',{title:opt.title}));
 			
-			var $dropblock = $('<div class="wbb-list">').appendTo($btn);
+			var $listblock = $('<div class="wbb-list">').appendTo($btn);
+			var $dropblock = $('<div>').css({"position":"relative","box-sizing":"border-box"}).appendTo($listblock);
 			var rows = opt.rows || 10;
 			var cols = opt.cols || 10;
 			var allcount = rows*cols;
-			$dropblock.css("width",(cols*opt.cellwidth+2)+"px").css("height",(rows*opt.cellwidth+2)+"px");
+			$dropblock.css("height",(rows*opt.cellwidth+2)+"px");
 			for (var j=1; j<=cols; j++) {
 				for (var h=1; h<=rows; h++) {
 					//var html = this.strf('<div class="tbl-sel" style="width:{width}px;height:{height}px;z-index:{zindex}" title="{row},{col}"></div>',{width: (j*opt.cellwidth),height: (h*opt.cellwidth),zindex: --allcount,row:h,col:j});
-					var html = '<div class="tbl-sel" style="width:'+(j*opt.cellwidth)+'px;height:'+(h*opt.cellwidth)+'px;z-index:'+(--allcount)+'" title="'+h+','+j+'"></div>';
+					var html = '<div class="tbl-sel" style="width:'+(j*100/cols)+'%;height:'+(h*100/rows)+'%;z-index:'+(--allcount)+'" title="'+h+','+j+'"></div>';
 					$dropblock.append(html);
 				}
 			}
@@ -1084,7 +1091,7 @@ wbbdebug=true;
 			var $sval = $btn.find("span.val");
 			
 			var olist = ($.isArray(opt.options)) ? opt.options:opt.options.split(",");
-			
+			var $selectbox = (this.isMobile) ? $("<select>").addClass("wbb-selectbox"):"";
 			for (var i=0; i<olist.length; i++) {
 				var oname = olist[i];
 				if (typeof(oname)=="string") {
@@ -1096,6 +1103,11 @@ wbbdebug=true;
 						}else{
 							$sblock.append(this.strf('<span class="option" oid="'+oname+'" cmdvalue="'+option.exvalue+'">{title}</span>',option));
 						}
+						
+						//SelectBox for mobile devices
+						if (this.isMobile) {
+							$selectbox.append($('<option>').attr("oid",oname).attr("cmdvalue",option.exvalue).append(option.title));
+					}
 					}
 				}else{
 					//build option list from array
@@ -1104,7 +1116,38 @@ wbbdebug=true;
 					}
 					params[opt.valueBBname]=oname.exvalue;
 					$('<span>').addClass("option").attr("oid",bn).attr("cmdvalue",oname.exvalue).appendTo($sblock).append(this.strf(opt.html,params));
+					
+					if (this.isMobile) {$selectbox.append($('<option>').attr("oid",bn).attr("cmdvalue",oname.exvalue).append(oname.exvalue))}
 				}
+			}
+			//$sblock.append($selectbox);
+			if (this.isMobile) {
+				$selectbox.appendTo(container);
+				this.controllers.push($selectbox);
+				
+				$selectbox.bind('queryState',$.proxy(function(e) {
+					//queryState
+					$selectbox.find("option").each($.proxy(function(i,el){
+						var $el = $(el);
+						var r = this.queryState($el.attr("oid"),true);
+						var cmdvalue = $el.attr("cmdvalue");
+						if ((cmdvalue && r==$el.attr("cmdvalue")) || (!cmdvalue && r)) {
+							$el.prop("selected",true);
+							return false;
+						}
+					},this));
+				},this));
+				
+				$selectbox.change($.proxy(function(e) {
+					e.preventDefault();
+					var $o =  $(e.currentTarget).find(":selected");
+					var oid = $o.attr("oid");
+					var cmdvalue = $o.attr("cmdvalue");
+					var opt = this.options.allButtons[oid];
+					this.execCommand(oid,opt.exvalue || cmdvalue || false);
+					$(e.currentTarget).trigger('queryState');
+				},this));
+				
 			}
 			this.controllers.push($btn);
 			$btn.bind('queryState',$.proxy(function(e) {
@@ -1133,8 +1176,6 @@ wbbdebug=true;
 				var opt = this.options.allButtons[oid];
 				this.execCommand(oid,opt.exvalue || cmdvalue || false);
 				$(e.currentTarget).trigger('queryState');
-				//this.lastRange=false;
-				//if (this.lastRange) this.lastRange=false; //IE 7 FIX
 			},this));
 		},
 		buildSmilebox: function(container,bn,opt) {
@@ -1164,8 +1205,10 @@ wbbdebug=true;
 					$btn.trigger('queryState');
 				},this));
 			}
+			
 			//check for onlyClearText
 			this.disNonActiveButtons();
+			
 		},
 		initModal: function() {
 			this.$modal=$("#wbbmodal");
@@ -1290,8 +1333,12 @@ wbbdebug=true;
 							return v;
 						}catch(e) {return false;}
 					}else{
-						try {
-							//Firefox fix, exception while get queryState for UnorderedList
+						try { //Firefox fix, exception while get queryState for UnorderedList
+							if ((opt.excmd=="bold" || opt.excmd=="italic" || opt.excmd=="underline" || opt.excmd=="strikeThrough") && $(this.getSelectNode()).is("img")) { //Fix, when img selected
+								return false;
+							}else if (opt.excmd=="underline" && $(this.getSelectNode()).closest("a").size()>0) { //fix, when link select
+								return false;
+							}
 							return document.queryCommandState(opt.excmd);
 						}catch(e) {return false;}
 					}
@@ -1391,10 +1438,10 @@ wbbdebug=true;
 					var $root = $(root);
 					var cs = this.options.rules[s][0][1];
 					if ($root.is("span[wbb]") || !$root.is("span,font")) { //remove only blocks
-						if (clear===true) {
+						if (clear===true || (!cs || !cs["seltext"])) {
+							this.setCursorByEl($root);
 							$root.remove();
 						}else{
-							//$.log(cs);
 							if (cs && cs["seltext"] && cs["seltext"]["sel"]) {
 								var htmldata = $root.find(cs["seltext"]["sel"]).html();
 								if (opt.onlyClearText===true) {
@@ -1406,7 +1453,7 @@ wbbdebug=true;
 								var htmldata = $root.html();
 								if (opt.onlyClearText===true) {
 									htmldata = this.getHTML(htmldata,true);
-									htmldata = htmldata.replace(/\&lt;/g,"<").replace(/\&#123;/g,"{").replace(/\&#125;/g,"}");
+									htmldata = htmldata.replace(/\&lt;/g,"<").replace(/\&gt;/g,">").replace(/\&#123;/g,"{").replace(/\&#125;/g,"}");
 								}
 								$root.replaceWith(htmldata);
 							}
@@ -1417,7 +1464,6 @@ wbbdebug=true;
 						var rng = this.getRange();
 						var shtml = this.getSelectText();
 						var rnode = this.getSelectNode();
-						$.log("selHTML: "+shtml);
 						if (shtml=="") {
 							shtml="\uFEFF";
 						}else{
@@ -1478,6 +1524,8 @@ wbbdebug=true;
 				var rng = (this.lastRange) ? this.lastRange:this.getRange();
 				rng.deleteContents();
 				rng.insertNode(e);
+                                rng.setStartAfter(e);
+                                rng.setEndAfter(e);
 				rng.collapse(false);
 				sel.removeAllRanges();
 				sel.addRange(rng);
@@ -1741,7 +1789,10 @@ wbbdebug=true;
 			this.body.focus();
 			if (!rng) {rng=this.getRange();}
 			if (!rng) {return this.$body;}
-			return (window.getSelection) ? rng.commonAncestorContainer:rng.parentElement();
+			//return (window.getSelection) ? rng.commonAncestorContainer:rng.parentElement();
+			var sn = (window.getSelection) ? rng.commonAncestorContainer:rng.parentElement();
+			if ($(sn).is(".imgWrap")) {sn = $(sn).children("img")[0];}
+			return sn;
 		},
 		getCursorPosBB: function() {	
 			var pos=0;
@@ -2025,12 +2076,8 @@ wbbdebug=true;
 											outbb+=this.toBB($('<span>').html(bbcode));
 											$el=null;
 										}else{
-											if ($.support.htmlSerialize) {
-												$el.empty().append($('<span>').html(bbcode));
-											}else{
 												$el.empty().html('<span>'+bbcode+'</span>');
 											}
-										}
 										
 									}else{
 										if ($el.is("iframe")) {
@@ -2051,6 +2098,8 @@ wbbdebug=true;
 					outbb+=this.toBB($el);
 				}
 			},this));
+			
+			outbb.replace(/\uFEFF/g,"");
 			return outbb;
 		},
 		getHTML: function(bbdata,init,skiplt) {
@@ -2298,7 +2347,6 @@ wbbdebug=true;
 		},
 		dropdownclick: function(bsel,tsel,e) {
 			//this.body.focus();
-			//if (!window.getSeletion && $.support.htmlSerialize) this.lastRange=this.getRange(); //IE 7 FIX
 			var $btn = $(e.currentTarget).closest(bsel);
 			if ($btn.hasClass("dis")) {return;}
 			if ($btn.attr("wbbshow")) {
@@ -2472,6 +2520,7 @@ wbbdebug=true;
 			return "";
 		},
 		smileConversion: function() {
+			if (this.options.smileList && this.options.smileList.length>0) {
 			var snode = this.getSelectNode();
 			if (snode.nodeType==3) {
 				var ndata = snode.data;
@@ -2490,6 +2539,7 @@ wbbdebug=true;
 						}
 					},this));
 				}
+			}
 			}
 		},
 		isInClearTextBlock: function() {
@@ -2522,6 +2572,34 @@ wbbdebug=true;
 				this.$toolbar.find(".wysibb-toolbar-btn:not(.on,.mswitch)").addClass("dis");
 			}else{
 				this.$toolbar.find(".wysibb-toolbar-btn.dis").removeClass("dis");
+			}
+		},
+		setCursorByEl: function(el) {
+			var sl = document.createTextNode("\uFEFF");
+			$(el).after(sl);
+			this.selectNode(sl);
+		},
+		
+		//img listeners
+		imgListeners: function() {
+			$(document).on("mousedown",$.proxy(this.imgEventHandler,this));
+		},
+		imgEventHandler: function(e) {
+			var $e = $(e.target);
+			if (this.hasWrapedImage && ($e.closest(".wbb-img,#wbbmodal").size()==0 || $e.hasClass("wbb-cancel-button"))) {
+				this.$body.find(".imgWrap ").each(function() {
+					$.log("Removed imgWrap block");
+					$(this).replaceWith($(this).find("img"));
+				})
+				this.hasWrapedImage = false;
+				this.updateUI();
+			}
+			
+			if ($e.is("img") && $e.closest(".wysibb-body").size()>0) {
+				$e.wrap("<span class='imgWrap'></span>");
+				this.hasWrapedImage = $e;
+				this.$body.focus();
+				this.selectNode($e.parent()[0]);
 			}
 		},
 		
@@ -2599,7 +2677,7 @@ wbbdebug=true;
 					var tid = $(el).parents(".tab-cont").attr("tid");
 					var pname = $(el).attr("name").toLowerCase();
 					var pval="";
-					if ($(el).is("input,textrea")) {
+					if ($(el).is("input,textrea,select")) {
 						pval = $(el).val();
 					}else{
 						pval = $(el).html();
@@ -2641,7 +2719,11 @@ wbbdebug=true;
 			}
 			this.$modal.show();
 			//if (window.getSelection) 
+			if (this.isMobile) {
+				$wbbm.css("margin-top","10px");
+			}else{
 			$wbbm.css("margin-top",($(window).height()-$wbbm.outerHeight())/3+"px");
+			}
 			//setTimeout($.proxy(function() {this.$modal.find("input:visible")[0].focus()},this),10);
 			setTimeout($.proxy(function() {this.$modal.find(".inp-text:visible")[0].focus()},this),10);
 		},
@@ -2676,12 +2758,11 @@ wbbdebug=true;
 				var rules = this.options.rules[s][0][1];
 				$.each(rules,$.proxy(function(k,v) {
 					var value="";
+					var $v = (v.sel!==false) ? value=$(src).find(v.sel):$(src);
 					if (v.attr!==false) {
-						value=$(src).attr(v.attr);
-					}else if (v.sel!==false) {
-						value=$(src).find(v.sel).html();
+						value=$v.attr(v.attr);
 					}else{
-						value=$(src).html();
+						value=$v.html();
 					}
 					if (value) {
 						if (v.rgx!==false) {
@@ -2717,13 +2798,6 @@ wbbdebug=true;
 						this.updateUI();
 					},this)
 				});
-				
-				if (!$.support.htmlSerialize) {
-					//ie not posting form by security reason, show default file upload
-					$.log("IE not posting form by security reason, show default file upload");
-					this.$modal.find("#nicebtn").hide();
-					this.$modal.find("#fileupl").css("opacity",1);
-				}
 				
 				this.$modal.find("#fileupl").bind("change",function() {
 					$("#fupform").submit();
