@@ -234,7 +234,7 @@ wbbdebug=true;
 					hotkey: 'ctrl+shift+3',
 					//subInsert: true,
 					transform : { 
-						'<blockquote>{SELTEXT}</blockquote>':"[quote]{SELTEXT}[/quote]"
+						'<div class="quote">{SELTEXT}</div>':"[quote]{SELTEXT}[/quote]"
 					}
 				},
 				code : {
@@ -244,7 +244,7 @@ wbbdebug=true;
 					hotkey: 'ctrl+shift+4',
 					onlyClearText: true,
 					transform : {
-						'<code>{SELTEXT}</code>':"[code]{SELTEXT}[/code]"
+						'<div class="codewrap"><div class="codetop" contenteditable="false">Код:</div><div class="codemain">{SELTEXT}</div></div>':"[code]{SELTEXT}[/code]"
 					}
 				},
 				offtop : {
@@ -969,7 +969,7 @@ wbbdebug=true;
 			
 			//build bbcode switch button
 			//var $bbsw = $('<div class="wysibb-toolbar-container modeSwitch"><div class="wysibb-toolbar-btn" unselectable="on"><span class="btn-inner ve-tlb-bbcode" unselectable="on"></span></div></div>').appendTo(this.$toolbar);
-			var $bbsw = $(document.createElement('div')).addClass("wysibb-toolbar-container modeSwitch").html('<div class="wysibb-toolbar-btn mswitch" unselectable="on"><span class="btn-inner modesw" unselectable="on">[bbcode]</span></div>').appendTo(this.$toolbar);
+			var $bbsw = $(document.createElement('div')).addClass("wysibb-toolbar-container modeSwitch").html('<div class="wysibb-toolbar-btn mswitch" unselectable="on"><span class="btn-inner modesw" unselectable="on">[Source]</span></div>').appendTo(this.$toolbar);
 			if (this.options.bbmode==true) {$bbsw.children(".wysibb-toolbar-btn").addClass("on");}
 			if (this.options.onlyBBmode===false) {
 				$bbsw.children(".wysibb-toolbar-btn").click($.proxy(function(e) {
@@ -1346,7 +1346,10 @@ wbbdebug=true;
 					//custom command
 					if ($.isArray(opt.rootSelector)) {
 						for (var i=0; i<opt.rootSelector.length; i++) {
-							var n = this.isContain(this.getSelectNode(),opt.rootSelector[i]);
+							var selector = opt.rootSelector[i];
+							if (command == 'mailto')
+								selector = 'a[href^="mailto:"]';
+							var n = this.isContain(this.getSelectNode(),selector);
 							if (n) {
 								return this.getParams(n,opt.rootSelector[i]);
 							}
@@ -2929,7 +2932,7 @@ wbbdebug=true;
 			if (this.data('wbb').options.bbmode) {
 				this.data('wbb').$txtArea.val(data);
 			}else{
-				this.data('wbb').$body.html(this.data("wbb").getHTML(data));
+				this.data('wbb').$body.html(this.data("wbb").getHTML(data, true));
 			}
 			return this;
 		}else{

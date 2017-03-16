@@ -3,7 +3,11 @@
 WysiBB is a jQuery visual WYSIWYG editor for BBcode.
 For more information please visit [wysibb.com](http://www.wysibb.com)
 
-[![Prioritize issues!](http://www.gitfund.org/img/badge/55a88db60a975a1154c22eea.svg?8)](http://www.gitfund.org/wbb/wysibb)
+NOTE, the original package https://github.com/wbb/wysibb is now distributed under
+different license, not allowing commercial use. This fork is MIT-licensed.
+
+It also uses slightly different dialect of BBCode - the one that was originally
+implemented in PEAR_BBCode PHP package.
 
 ## Usage
 
