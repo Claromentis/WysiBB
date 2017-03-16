@@ -1107,7 +1107,7 @@ wbbdebug=true;
 						//SelectBox for mobile devices
 						if (this.isMobile) {
 							$selectbox.append($('<option>').attr("oid",oname).attr("cmdvalue",option.exvalue).append(option.title));
-					}
+						}
 					}
 				}else{
 					//build option list from array
@@ -1347,8 +1347,6 @@ wbbdebug=true;
 					if ($.isArray(opt.rootSelector)) {
 						for (var i=0; i<opt.rootSelector.length; i++) {
 							var selector = opt.rootSelector[i];
-							if (command == 'mailto')
-								selector = 'a[href^="mailto:"]';
 							var n = this.isContain(this.getSelectNode(),selector);
 							if (n) {
 								return this.getParams(n,opt.rootSelector[i]);
@@ -2079,8 +2077,8 @@ wbbdebug=true;
 											outbb+=this.toBB($('<span>').html(bbcode));
 											$el=null;
 										}else{
-												$el.empty().html('<span>'+bbcode+'</span>');
-											}
+											$el.empty().html('<span>'+bbcode+'</span>');
+										}
 										
 									}else{
 										if ($el.is("iframe")) {
@@ -2432,6 +2430,7 @@ wbbdebug=true;
 			},this));
 			$block.find("*[wbbkeep]").removeAttr("wbbkeep").removeAttr("style");
 			$.log($block.html());
+			$block.html(this.getHTML(this.toBB($block),true).replace(/(\xA0|&nbsp;)/g,' '));
 			//$.log("BBCODE: "+this.toBB($block.clone(true)));
 			$block.html(this.getHTML(this.toBB($block),true));
 			$.log($block.html());
@@ -2524,25 +2523,25 @@ wbbdebug=true;
 		},
 		smileConversion: function() {
 			if (this.options.smileList && this.options.smileList.length>0) {
-			var snode = this.getSelectNode();
-			if (snode.nodeType==3) {
-				var ndata = snode.data;
-				if (ndata.length>=2 && !this.isInClearTextBlock(snode) && $(snode).parents("a").size()==0) {
-					$.each(this.options.srules,$.proxy(function(i,sar) {
-						var smbb = sar[0];
-						var fidx = ndata.indexOf(smbb);
-						if (fidx!=-1) {
-							var afternode_txt = ndata.substring(fidx+smbb.length,ndata.length);
-							var afternode = document.createTextNode(afternode_txt);
-							var afternode_cursor = document.createElement("SPAN");
-							snode.data = snode.data.substr(0,fidx);
-							$(snode).after(afternode).after(afternode_cursor).after(this.strf(sar[1],this.options));
-							this.selectNode(afternode_cursor);
-							return false;
-						}
-					},this));
+				var snode = this.getSelectNode();
+				if (snode.nodeType==3) {
+					var ndata = snode.data;
+					if (ndata.length>=2 && !this.isInClearTextBlock(snode) && $(snode).parents("a").size()==0) {
+						$.each(this.options.srules,$.proxy(function(i,sar) {
+							var smbb = sar[0];
+							var fidx = ndata.indexOf(smbb);
+							if (fidx!=-1) {
+								var afternode_txt = ndata.substring(fidx+smbb.length,ndata.length);
+								var afternode = document.createTextNode(afternode_txt);
+								var afternode_cursor = document.createElement("SPAN");
+								snode.data = snode.data.substr(0,fidx);
+								$(snode).after(afternode).after(afternode_cursor).after(this.strf(sar[1],this.options));
+								this.selectNode(afternode_cursor);
+								return false;
+							}
+						},this));
+					}
 				}
-			}
 			}
 		},
 		isInClearTextBlock: function() {
@@ -2725,7 +2724,7 @@ wbbdebug=true;
 			if (this.isMobile) {
 				$wbbm.css("margin-top","10px");
 			}else{
-			$wbbm.css("margin-top",($(window).height()-$wbbm.outerHeight())/3+"px");
+				$wbbm.css("margin-top",($(window).height()-$wbbm.outerHeight())/3+"px");
 			}
 			//setTimeout($.proxy(function() {this.$modal.find("input:visible")[0].focus()},this),10);
 			setTimeout($.proxy(function() {this.$modal.find(".inp-text:visible")[0].focus()},this),10);
